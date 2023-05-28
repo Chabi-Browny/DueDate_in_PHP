@@ -65,8 +65,7 @@ class Autoload
     
     /**/
     public function mappedFiles(string $prefix, string $relativeClass)
-    {
-        
+    {        
         if (array_key_exists($prefix, $this->prefixes))
         {
             foreach ($this->prefixes[$prefix] as $dirInfo)
@@ -83,8 +82,7 @@ class Autoload
                 if ($this->importFile($fileWithPath))
                 {
                     return true;
-                }
-                
+                }                
             }            
         }
         

@@ -1,5 +1,5 @@
 # DueDate_in_PHP
-It's a learning project. It's not recommended to use in production.
+It's just a learning project. It's not recommended to use in production.
 
 
 Due Date Calculator example in an issue tracking system.
