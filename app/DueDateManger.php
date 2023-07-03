@@ -97,6 +97,11 @@ class DueDateManger
                 }
             }
         }
+
+        if ($retVal instanceof DateTimeImmutable)
+        {
+            $retVal = $retVal->format('Y-m-d H:i');
+        }
         return $retVal;
     }
 

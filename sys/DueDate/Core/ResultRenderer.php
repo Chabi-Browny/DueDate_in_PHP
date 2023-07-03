@@ -37,6 +37,7 @@ class ResultRenderer
                 foreach ($this->result as $result)
                 {
                     print_r($result);
+                    print_r("\n");
                 }
             }
             else
