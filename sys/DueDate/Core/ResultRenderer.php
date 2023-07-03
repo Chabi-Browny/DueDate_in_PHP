@@ -4,8 +4,6 @@ namespace DueDate\Core;
 
 /**
  * Description of ResultRenderer
- *
- * @author Csaba Barnabas Barcsa
  */
 class ResultRenderer
 {
@@ -16,6 +14,9 @@ class ResultRenderer
         $this->result = $result;
     }
 
+    /**
+     * @desc -  display the result correctly
+     */
     public function renderResult()
     {
         echo '<pre>';
@@ -23,6 +24,10 @@ class ResultRenderer
         echo '</pre>';
     }
 
+    /**
+     * @desc show just the result
+     * @throws Exception
+     */
     protected function show()
     {
         if (!empty($this->result))

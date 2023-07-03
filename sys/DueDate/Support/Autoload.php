@@ -5,38 +5,38 @@ namespace DueDate\Support;
 /**
  * Description of Autoload
  * Based on PSR-4
- * @author - P.G.A :), Csaba Barnabas Barcsa 
+ * @author - S.D.G & P.G.A :), Csaba Barnabas Barcsa
  */
-class Autoload 
+class Autoload
 {
     protected $classMap = [];
     protected $prefixes = [];
-    
+
     /**/
     public function register(): void
     {
         spl_autoload_register([$this, 'loadClass']);
     }
-    
+
     /**/
     public function addNameSpaces(string $baseDir, string $prefix, string $prefixAlias = ''): void
     {
         $prefix = $this->trimPrefix($prefix);
-        
+
         $baseDir = rtrim($baseDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        
-        $toPrefix = strlen($prefixAlias) > 0 
+
+        $toPrefix = strlen($prefixAlias) > 0
             ? [
                 'baseDir' => $baseDir,
                 'prefixAlias' => $this->trimPrefix($prefixAlias)
-            ] 
+            ]
             : $baseDir;
-        
-        if (!array_key_exists($prefix, $this->prefixes)) 
+
+        if (!array_key_exists($prefix, $this->prefixes))
         {
             $this->prefixes[$prefix] = [];
         }
-        
+
         array_push($this->prefixes[$prefix], $toPrefix);
     }
 
@@ -44,13 +44,13 @@ class Autoload
     public function loadClass(string $className)
     {
         $prefix = $className;
-        
+
         while ( false !== ($pos = strpos($prefix, '\\')) )
         {
             $prefix = substr($className, 0, $pos + 1);
-            
+
             $relativeClass = substr($className, $pos + 1);
-            
+
             $mappedFile = $this->mappedFiles($prefix, $relativeClass);
             if ($mappedFile)
             {
@@ -59,36 +59,36 @@ class Autoload
 
             $prefix = rtrim($prefix, '\\');
         }
-        
+
         return false;
     }
-    
+
     /**/
     public function mappedFiles(string $prefix, string $relativeClass)
-    {        
+    {
         if (array_key_exists($prefix, $this->prefixes))
         {
             foreach ($this->prefixes[$prefix] as $dirInfo)
             {
-                $dirPath = is_array($dirInfo) && array_key_exists('baseDir', $dirInfo) ? $dirInfo['baseDir'] : $dirInfo;
-                
-                if (is_array($dirInfo) && array_key_exists('prefixAlias', $dirInfo))
+                $dirPath = $this->checkDirInfoKey($dirInfo, 'baseDir') ? $dirInfo['baseDir'] : $dirInfo;
+
+                if ($this->checkDirInfoKey($dirInfo, 'prefixAlias'))
                 {
                     $prefix = $dirInfo['prefixAlias'];
                 }
-                
+
                 $fileWithPath = strtr($dirPath . $prefix . $relativeClass . '.php', '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
-                
+
                 if ($this->importFile($fileWithPath))
                 {
                     return true;
-                }                
-            }            
+                }
+            }
         }
-        
+
         return false;
     }
-    
+
     /**
      * @desc - Import the file if exists, and gives it back with true
      * @param string $fileWithPath
@@ -99,11 +99,11 @@ class Autoload
         if (file_exists($fileWithPath))
         {
             importFile($fileWithPath);
-            
+
             return true;
         }
     }
-    
+
     /**
      * @desc - Right trim the backslash from the prefix
      * @param string $prefix
@@ -113,7 +113,18 @@ class Autoload
     {
         return rtrim($prefix, '\\') . '\\';
     }
-       
+
+    /**
+     * @desc - checking the key existance in the directory info
+     * @param type $dirInfo
+     * @param string $key
+     * @return bool
+     */
+    protected function checkDirInfoKey( $dirInfo, string $key): bool
+    {
+        return is_array($dirInfo) && array_key_exists($key, $dirInfo);
+    }
+
 }
 
 /**

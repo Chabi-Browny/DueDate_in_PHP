@@ -6,10 +6,10 @@ if (file_exists($rootPath . $ds . 'sys' . $ds . 'DueDate' . $ds .'Support' . $ds
 
 use DueDate\Support\Autoload;
 
-$dueDateDir = $rootPath . $ds . 'sys';
 $autoload = new Autoload();
 
 $autoload->register();
 
-$autoload->addNameSpaces( $dueDateDir, 'DueDate');
+$autoload->addNameSpaces( $rootPath . $ds . 'sys', 'DueDate');
 
+$autoload->addNameSpaces( $rootPath . $ds, 'App', 'app');

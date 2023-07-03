@@ -1,6 +1,6 @@
 <?php
 
-namespace DueDate\Core;
+namespace App\Handlers;
 
 use DateTimeImmutable;
 /**
@@ -48,7 +48,7 @@ class DateTimeHandler
         return $this->instance;
     }
 
-    
+
     public function getFormatedDateTime (string $formatterPhrase)
     {
         return $this->instance->modify($formatterPhrase);
